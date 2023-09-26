@@ -1,12 +1,14 @@
 package models
 
-import "db"
+import (
+	"db"
+)
 
 type Produto struct {
-	Id int
-	Nome string
-	Descricao string
-	Preco float64
+	Id         int
+	Nome       string
+	Descricao  string
+	Preco      float64
 	Quantidade int
 }
 
@@ -23,7 +25,7 @@ func BuscaTodosOsProdutos() []Produto {
 	produtos := []Produto{}
 
 	for selectTodosOsProdutos.Next() {
-		var id, quantidade int 
+		var id, quantidade int
 		var nome, descricao string
 		var preco float64
 
@@ -47,10 +49,10 @@ func BuscaTodosOsProdutos() []Produto {
 	return produtos
 }
 
-func CriarNovoProduto(nome, descricao, preco, quantidade) {
+func CriarNovoProduto(nome string, descricao string, preco float64, quantidade int) {
 	db := db.ConnectComBancoDeDados()
 
-	insereDadosNoBanco, err := db.Prepare("insert into produtos(nome, descricao, preco, quantidade) values($1, $2, $3, $4)")
+	insereDadosNoBanco, err := db.Prepare("insert into produtos(nome, descricao, preco, quantidade) values ($1, $2, $3, $4)")
 
 	if err != nil {
 		panic(err.Error())

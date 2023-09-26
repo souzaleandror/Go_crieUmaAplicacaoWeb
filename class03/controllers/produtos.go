@@ -1,9 +1,11 @@
 package controllers
 
-import(
-	"net/http"
+import (
 	"html/template"
+	"log"
 	"models"
+	"net/http"
+	"strconv"
 )
 
 var temp = template.Must(template.ParseGlob("templates/*.html"))
@@ -37,5 +39,5 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 		models.CriarNovoProduto(nome, descricao, precoConvertido, quantidadeConvertido)
 	}
 
-	http.Redirect(w, e, "/", 301)
+	http.Redirect(w, r, "/", 301)
 }
