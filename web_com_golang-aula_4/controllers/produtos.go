@@ -3,9 +3,10 @@ package controllers
 import (
 	"html/template"
 	"log"
-	"models"
 	"net/http"
 	"strconv"
+
+	"github.com/alura/models"
 )
 
 var temp = template.Must(template.ParseGlob("templates/*.html"))
@@ -25,26 +26,24 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 		descricao := r.FormValue("descricao")
 		preco := r.FormValue("preco")
 		quantidade := r.FormValue("quantidade")
-		precoConvertido, err := strconv.ParseFloat(preco, 64)
-		quantidadeConvertido, err2 := strconv.Atoi(quantidade)
 
+		precoConvertidoParaFloat, err := strconv.ParseFloat(preco, 64)
 		if err != nil {
-			log.Println("Error ao converter Preco: ", err)
+			log.Println("Erro na conversão do preço:", err)
 		}
 
-		if err2 != nil {
-			log.Println("Error ao converter Quantidade: ", err2)
+		quantidadeConvertidaParaInt, err := strconv.Atoi(quantidade)
+		if err != nil {
+			log.Println("Erro na conversão do quantidade:", err)
 		}
 
-		models.CriarNovoProduto(nome, descricao, precoConvertido, quantidadeConvertido)
+		models.CriaNovoProduto(nome, descricao, precoConvertidoParaFloat, quantidadeConvertidaParaInt)
 	}
-
 	http.Redirect(w, r, "/", 301)
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
 	idDoProduto := r.URL.Query().Get("id")
 	models.DeletaProduto(idDoProduto)
-
 	http.Redirect(w, r, "/", 301)
 }

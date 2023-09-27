@@ -1,8 +1,6 @@
 package models
 
-import (
-	"db"
-)
+import "github.com/alura/db"
 
 type Produto struct {
 	Id         int
@@ -13,10 +11,9 @@ type Produto struct {
 }
 
 func BuscaTodosOsProdutos() []Produto {
-	db := db.ConnectComBancoDeDados()
+	db := db.ConectaComBancoDeDados()
 
-	selectTodosOsProdutos, err := db.Query("select * from produtos")
-
+	selectDeTodosOsProdutos, err := db.Query("select * from produtos")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -24,55 +21,49 @@ func BuscaTodosOsProdutos() []Produto {
 	p := Produto{}
 	produtos := []Produto{}
 
-	for selectTodosOsProdutos.Next() {
+	for selectDeTodosOsProdutos.Next() {
 		var id, quantidade int
 		var nome, descricao string
 		var preco float64
 
-		err = selectTodosOsProdutos.Scan(&id, &nome, &descricao, &preco, &quantidade)
-
+		err = selectDeTodosOsProdutos.Scan(&id, &nome, &descricao, &preco, &quantidade)
 		if err != nil {
 			panic(err.Error())
 		}
 
+		p.Id = id
 		p.Nome = nome
 		p.Descricao = descricao
 		p.Preco = preco
 		p.Quantidade = quantidade
-		p.Id = id
 
 		produtos = append(produtos, p)
 	}
-
 	defer db.Close()
-
 	return produtos
 }
+func CriaNovoProduto(nome, descricao string, preco float64, quantidade int) {
+	db := db.ConectaComBancoDeDados()
 
-func CriarNovoProduto(nome string, descricao string, preco float64, quantidade int) {
-	db := db.ConnectComBancoDeDados()
-
-	insereDadosNoBanco, err := db.Prepare("insert into produtos(nome, descricao, preco, quantidade) values ($1, $2, $3, $4)")
-
+	insereDadosNoBanco, err := db.Prepare("insert into produtos(nome, descricao, preco, quantidade) values($1, $2, $3, $4)")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	insereDadosNoBanco.Exec(nome, descricao, preco, quantidade)
-
 	defer db.Close()
+
 }
 
-func DeletaProduto(idDoProduto string) {
-	db := db.ConnectComBancoDeDados()
+func DeletaProduto(id string) {
+	db := db.ConectaComBancoDeDados()
 
-	deletaDadosNoBanco, err := db.Prepare("delete from produtos where id=$1")
-
+	deletarOProduto, err := db.Prepare("delete from produtos where id=$1")
 	if err != nil {
 		panic(err.Error())
 	}
 
-	deletaDadosNoBanco.Exec(idDoProduto)
-
+	deletarOProduto.Exec(id)
 	defer db.Close()
+
 }

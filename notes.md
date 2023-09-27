@@ -502,7 +502,6 @@ Exibindo dados do banco
 
 @@04
 Faça como eu fiz na aula
-PRÓXIMA ATIVIDADE
 
 Sua vez!
 Estamos exibindo os produtos de forma dinâmica, porém existe um ponto muito sensível em nosso projeto: Todos nossos produtos estão cadastrados em nosso arquivo main.go e isso pode ser arriscado, pois se deletarmos uma linha de produto sem querer, perdemos o produto.
@@ -560,7 +559,6 @@ Ficou com dúvida? Recorra ao nosso fórum, não perca tempo!
 
 @@05
 Imports
-PRÓXIMA ATIVIDADE
 
 Durante o desenvolvimento de uma aplicação feita em Go com banco de dados Postgres, uma pessoa importou os seguintes pacotes:
 import (
@@ -585,7 +583,6 @@ Certo! Esse pacote torna incrivelmente fácil a criação de servidores HTTP. Po
 
 @@06
 O que aprendemos?
-PRÓXIMA ATIVIDADE
 
 Nessa aula:
 Instalamos o Postgres para armazenar nossos produtos de forma segura;
@@ -749,7 +746,6 @@ Página de novos produtos
 
 @@04
 Formulário de novos produtos
-PRÓXIMA ATIVIDADE
 
 Vamos adicionar um formulário para criar novos produtos?
 Altere o conteúdo do arquivo new.html, substituindo o código desenvolvido pelo conteúdo abaixo:
@@ -941,7 +937,6 @@ Salvando produto no banco
 
 @@07
 Faça como eu fiz na aula
-PRÓXIMA ATIVIDADE
 
 Sua vez!
 Melhoramos nosso código dividindo as responsabilidades em pacotes diferentes e exibimos os produtos que estão no banco de dados. Porém, quando preciso cadastrar um produto novo para exibir na minha loja, é necessário abrir o banco de dados e fazer a inserção com código sql.
@@ -1001,7 +996,6 @@ Ficou com dúvida? Recorra ao nosso fórum, não perca tempo!
 
 @@08
 Dividindo o código
-PRÓXIMA ATIVIDADE
 
 Inicialmente, em nossa aplicação, haviam 2 arquivos principais: main.go e index.html. Porém, à medida que inserimos novas funcionalidades, muitas linhas de código eram acrescentadas.
 Pensando nisso, melhoramos a arquitetura da nossa aplicação dividindo nosso código por responsabilidades, criando um arquivo para as rotas e utilizamos também o padrão MVC.
@@ -1020,7 +1014,6 @@ Dividir um código em arquivos e funções que realizam uma única tarefa leva t
 
 @@09
 O que aprendemos?
-PRÓXIMA ATIVIDADE
 
 Nessa aula:
 Modularizamos o código para tornar a manutenção e/ou atualização mais clara, criando as pastas controllers, db, models, routes e templates;
@@ -1192,3 +1185,125 @@ Código duplicado e partials
 [06:09] Subi meu servidor de novo, voltei, quando vem para página principal está Alura superloja também, vou voltar. Claro foi um teste, vou deixar Alura loja mesmo. Olha que legal então em um local Só através das partes que criou tem o mesmo.
 
 [06:23] Em um local apenas, através das partials que criei temos o mesmo comportamento para todas as outras, então desde Alura, até página principal tem um comportamento só. isso evita duplicação até nossas tabelas html, nas nossas páginas html.
+
+@@03
+Código duplicado e partials
+
+[00:00] Nós modularizamos nosso código entre view, controle, rotas e modelos para que tenha apenas uma responsabilidade, recebe uma requisição de rotas para quem vai atender essa requisição, o controle pede para o modelo passa informação certa para o modelo.
+[00:20] E da ação que quer tomar, fizemos isso e ficou bem legal - só existe um ponto importante nos nossos templates, nas nossas telas, nas nossas views, se acessar repara que toda a primeira parte do doctype até o head tem nas duas páginas tem que copiar esse código, está duplicado.
+
+[00:46] Tem navbar tanto na primeira página index, navbar e aqui no new o mesmo código - o que acontece se eu altero o conteúdo de uma dessas páginas - que eu quero que quando a pessoa clica em Alura loja ela vai para página de uma outra página.
+
+[01:04] Eu tenho que alterar nos dois, isso é ruim porque código duplicado sempre vai dar problema para nós, no lugar de manter o nosso código duplicado, nossos HTML duplicados, o Go também ajuda a criar partição para quebrar as nossas telas em pequenas partes e em pequenos pedaços.
+
+[01:32] E vai renderizar eles em outros lugares também . Observa que eu tenho nesta página e na página de criar um novo eu também tenho Bootstrap, vou fazer toda essa parte aqui do doctype.html até o head (linhas 2 a 14) eu vou criar uma parcial desse conteúdo.
+
+[01:57] Para indicar uma partial eu vim em template vou clicar aqui no ícone para criar um novo arquivo, vou colocar underline na frente eu colocar head.html, na minha página de index, eu vou pegar todo conteúdo do head vou removê-lo.
+
+[02:19] Removi todo esse conteúdo, vou colar ele no Head, salvei, preciso informar através de código Go embebedado - preciso falar que isso aqui é o head, já fizemos isso uma vez.
+
+[02:40] Então eu vou definir isso como sendo aqui _head, e ele termina no final da página. Então vou colocar o código para indicar o local onde ele acaba, está sem o head e preciso executá-lo.
+
+[03:03] O código vou chamar esse nosso template eu vou chamar esse template entre aspas duplas porque eu vou colocar o nome do nosso template que é o head e pronto, só isso já tem o nosso cabeçalho.
+
+[03:30] Vamos testar, eu derrubei o servidor e liguei de novo, vou lá para Alura loja repara que está funcionando, eu vou remover essa página para vocês verem, derrubei servidor, subi servidor, não tem mais as nossas tabelas funcionando, ficou bagunçado. Não queremos isso.
+
+[03:52] Queremos o nosso código funcionando certinho, vou dar um “Control + Z”, era só para mostrar vocês a importância desse nosso código head, em um local específico.
+
+[04:10] Preciso copiar código do New, eu vou remover esse código e vou colocar meu template, ele vai vir, também um outro ponto pode melhorar o nosso projeto é navbar.
+
+[04:27] Tem navbar e no index também tem, queremos em apenas um local, alterando local só, um pedaço do código, ele vai alterar para todos aqueles que precisam dele.
+
+[04:44] Vou criar um novo arquivo e vou chamar de menu.html, vai ter três linhas de código, onde estão os navbar, eu vou definir que minha partial se chama menu e ela acaba na linha 7.
+
+[05:07] Na minha index vou executar aquela parte, eu quero trazer através da palavra template e eu vou trazer o menu. Tanto na index quanto na minha página de new, salvei, que só vem todo mundo vamos escutar.
+
+[05:38] Então vou subir o meu servidor. Vou atualizar tem a página index funcionando certinho, quando vai para página new, funcionando certinho, reparem que Alura loja vou alterar em um local no menu.
+
+[05:53] O nosso cabeçalho, New, excelente, vou alterar em um local e ele vai alterando as duas, estão no lugar de Alura loja vou colocar Alura Super Loja, salvei, derrubei meu servidor.
+
+[06:09] Subi meu servidor de novo, voltei, quando vem para página principal está Alura superloja também, vou voltar. Claro foi um teste, vou deixar Alura loja mesmo. Olha que legal então em um local Só através das partes que criou tem o mesmo.
+
+[06:23] Em um local apenas, através das partials que criei temos o mesmo comportamento para todas as outras, então desde Alura, até página principal tem um comportamento só. isso evita duplicação até nossas tabelas html, nas nossas páginas html.
+
+@@04
+Faça como eu fiz na aula
+
+Sua vez!
+Existem alguns produtos que gostaria de remover da minha loja, mas com base no código que desenvolvemos, não conseguimos deletar um produto.
+
+Pensando nisso, crie um botão na linha de cada produto capaz de deletar o produto.
+
+Para inserir um botão na linha de cada produto, crie uma nova td dentro do range de produtos:
+<td><button onclick="onDelete('{{.Id}}')" class="btn btn-danger">Deletar</button></td>COPIAR CÓDIGO
+Ainda no arquivo index.html, crie a função onDelete com as tags <script>, confirmando se queremos deletar ou não:
+<script>
+    function onDelete(id) {
+        let resposta = confirm("Tem certeza que deseja deletar esse produto?")
+        if (resposta) {
+            window.location = "/delete?id=" + id
+        }
+    }
+</script>COPIAR CÓDIGO
+No controle de produtos, crie uma função chamada Delete, que busca o ID do produto na url:
+func Delete(w http.ResponseWriter, r *http.Request) {
+    idDoProduto := r.URL.Query().Get("id")
+    models.DeletaProduto(idDoProduto)
+    http.Redirect(w, r, "/", 301)
+}COPIAR CÓDIGO
+No modelo de produtos, desenvolva a função que deleta o produto do banco:
+func DeletaProduto(id string) {
+    db := db.ConectaComBancoDeDados()
+
+    deletarOProduto, err := db.Prepare("delete from produtos where id=$1")
+    if err != nil {
+        panic(err.Error())
+    }
+
+    deletarOProduto.Exec(id)
+    defer db.Close()COPIAR CÓDIGO
+Para finalizar, adicione a rota para deletar um produto:
+http.HandleFunc("/delete", controllers.Delete)COPIAR CÓDIGO
+O gabarito deste exercício é o passo a passo demonstrado no vídeo. Tenha certeza de que tudo está certo antes de continuar.
+
+Ficou com dúvida? Recorra ao nosso fórum, não perca tempo!
+
+:)
+
+@@05
+Quando vamos deletar...
+
+Criamos um botão na linha de cada produto que, quando clicado, encaminha à seguinte url:
+"/delete?id={{.Id}}"
+COPIAR CÓDIGO
+Analisando o código acima, podemos afirmar que:
+
+É necessário que o controle de produtos converta o valor do id para inteiro antes de passar para o modelo, para deletar com sucesso.
+ 
+Alternativa correta
+Para recuperar o valor do id no controle de produtos, podemos usar idDoProduto := r.URL.Query().Get("id").
+ 
+Certo! Buscamos a informação da url, através do protocolo get.
+Alternativa correta
+É uma boa prática buscar o id da url direto no modelo de produtos.
+
+@@06
+O que aprendemos?
+
+Nessa aula:
+Criamos um botão na linha de cada produto que assim que clicado, deletava o produto do banco de dados;
+Para melhorar a remoção dos produtos, criamos uma função em Javascript perguntando se queremos de fato, deletar o produto;
+Removemos o código HTML duplicado da index e do arquivo new, criando as seguintes partials: _head.html e _menu.html.
+Projeto desenvolvido nesta aula
+Neste link, você fará o download do projeto feito até esta aula.
+
+Caso queira visualizar o código desenvolvido até aqui, clique neste link.
+
+Na próxima aula
+Vamos possibilitar editar nossos produtos, atualizando as informações no banco de dados!
+
+https://github.com/alura-cursos/web_com_golang/tree/aula_4/templates
+
+https://github.com/alura-cursos/web_com_golang/archive/aula_4.zip
+
+https://github.com/alura-cursos/web_com_golang/tree/aula_4
